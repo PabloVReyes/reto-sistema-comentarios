@@ -1,0 +1,260 @@
+{
+  "decisions": [
+    {
+      "title": "¿Debería cambiar de trabajo por una oferta con 30% más de salario?",
+      "context": "Tengo una oferta de otra empresa con 30% más de salario, pero mi trabajo actual es muy cómodo, tengo buenos compañeros y flexibilidad de horario. La nueva empresa es más grande pero parece más estresante. Tengo 28 años y quiero crecer profesionalmente pero también valoro mi calidad de vida.",
+      "type": "career",
+      "options": [
+        "Aceptar la nueva oferta por el crecimiento económico",
+        "Quedarme donde estoy y priorizar la calidad de vida",
+        "Negociar un aumento en mi trabajo actual",
+        "Aceptar pero negociar trabajo remoto en la nueva empresa"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 7
+    },
+    {
+      "title": "¿React o Vue.js para mi nuevo proyecto SaaS?",
+      "context": "Voy a empezar un proyecto SaaS desde cero. Tengo experiencia con ambos frameworks pero no me decido. React tiene más mercado laboral, pero Vue parece más simple para mantener. El proyecto podría crecer mucho y necesito algo escalable.",
+      "type": "technical",
+      "options": [
+        "React - Mayor ecosistema y comunidad",
+        "Vue.js - Más simple y rápido de desarrollar",
+        "Next.js - React con SSR incluido",
+        "Nuxt.js - Vue con SSR incluido"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 3
+    },
+    {
+      "title": "¿Me mudo solo o sigo viviendo con mis padres para ahorrar?",
+      "context": "Tengo 25 años, trabajo estable y puedo pagar un alquiler, pero viviendo con mis padres ahorro el 40% de mi sueldo. La relación es buena pero quiero independencia. Mis amigos ya viven solos y me siento atrasado.",
+      "type": "life",
+      "options": [
+        "Mudarme ya y ganar independencia",
+        "Esperar 1 año más y ahorrar para comprar",
+        "Buscar roommate para compartir gastos"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 10
+    },
+    {
+      "title": "¿Invierto mis ahorros en Bitcoin o en un fondo indexado?",
+      "context": "Tengo $10,000 ahorrados y quiero invertirlos. Bitcoin ha subido mucho pero es volátil. Los fondos indexados son más seguros pero con menos potencial de ganancia. No necesito el dinero a corto plazo, es para los próximos 5-10 años.",
+      "type": "financial",
+      "options": [
+        "100% en Bitcoin - Alto riesgo, alta recompensa",
+        "100% en S&P 500 - Seguro y estable",
+        "50/50 diversificado",
+        "70% S&P 500, 30% Bitcoin"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 5
+    },
+    {
+      "title": "¿Debería lanzar mi startup como MVP o esperar a tener más features?",
+      "context": "Llevo 6 meses desarrollando mi startup. Tengo un MVP funcional pero básico. Mis mentores dicen que lance ya, pero siento que le faltan features importantes. Tengo competencia que ya está en el mercado con productos más completos.",
+      "type": "startup",
+      "options": [
+        "Lanzar el MVP ya y mejorar con feedback",
+        "Esperar 2 meses más para añadir features clave",
+        "Lanzar en beta privada primero"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 4
+    },
+    {
+      "title": "¿Acepto una promoción a manager o sigo como developer senior?",
+      "context": "Me ofrecieron ser tech lead de mi equipo. Significa más dinero y crecimiento, pero menos código y más reuniones. Me gusta mucho programar y no sé si soy bueno liderando. Tengo 32 años y siento que es ahora o nunca para el cambio.",
+      "type": "career",
+      "options": [
+        "Aceptar la promoción y crecer en management",
+        "Rechazar y mantenerme técnico",
+        "Aceptar por 6 meses como prueba",
+        "Proponer un rol híbrido 50/50"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 6
+    },
+    {
+      "title": "¿PostgreSQL o MongoDB para mi aplicación de analytics?",
+      "context": "Estoy diseñando una plataforma de analytics que manejará millones de eventos por día. PostgreSQL es robusto y conozco SQL bien. MongoDB parece mejor para datos no estructurados pero no tengo experiencia. El esquema de datos podría cambiar frecuentemente.",
+      "type": "technical",
+      "options": [
+        "PostgreSQL con JSONB para flexibilidad",
+        "MongoDB para escalabilidad horizontal",
+        "TimescaleDB (PostgreSQL para time-series)",
+        "Usar ambos según el tipo de dato"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 2
+    },
+    {
+      "title": "¿Adopto un perro ahora o espero a tener casa propia?",
+      "context": "Siempre quise tener un perro. Vivo en un departamento con balcón y trabajo desde casa 3 días a la semana. Mi edificio permite mascotas pero no tengo patio. Planeo comprar casa en 2-3 años. Estoy solo y creo que me haría bien la compañía.",
+      "type": "life",
+      "options": [
+        "Adoptar un perro pequeño ahora",
+        "Esperar a tener casa con patio",
+        "Adoptar un gato en vez de perro",
+        "Ser voluntario en refugio mientras tanto"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 14
+    },
+    {
+      "title": "¿Pago todas mis deudas o invierto mientras las pago gradualmente?",
+      "context": "Tengo $15,000 en deudas de tarjetas (18% interés) y acabo de recibir un bono de $20,000. Puedo pagar todo y quedar libre, o pagar mínimos e invertir el resto. Algunos dicen que es mejor invertir si puedo ganar más del 18% anual.",
+      "type": "financial",
+      "options": [
+        "Pagar todas las deudas inmediatamente",
+        "Pagar 50% deudas, invertir 50%",
+        "Pagar mínimos e invertir todo",
+        "Pagar deudas y usar resto como fondo de emergencia"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 3
+    },
+    {
+      "title": "¿Debería hacer un bootcamp de programación o estudiar por mi cuenta?",
+      "context": "Quiero cambiar de carrera a programación. Los bootcamps cuestan $10,000 y duran 6 meses intensivos. Podría estudiar solo con recursos gratuitos pero me tomaría más tiempo y sin estructura. Tengo 30 años y quiero cambiar rápido.",
+      "type": "career",
+      "options": [
+        "Bootcamp intensivo para cambio rápido",
+        "Autodidacta con disciplina y ahorro",
+        "Bootcamp online más barato",
+        "Universidad nocturna (3 años)"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 8
+    },
+    {
+      "title": "¿Kubernetes o Docker Swarm para orquestar mis contenedores?",
+      "context": "Necesito orquestar contenedores para mi aplicación en producción. Kubernetes es el estándar pero parece overkill para mi escala actual (10-20 contenedores). Docker Swarm es más simple pero menos popular. Espero crecer a 100+ contenedores en un año.",
+      "type": "technical",
+      "options": [
+        "Kubernetes desde el inicio",
+        "Docker Swarm y migrar después si es necesario",
+        "ECS de AWS para no administrar nada"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 4
+    },
+    {
+      "title": "¿Me caso con mi pareja de 5 años o esperamos más?",
+      "context": "Llevamos 5 años juntos, ambos con trabajos estables. Ella quiere casarse ya, yo quiero esperar a tener más ahorros. Tenemos 29 años. El tema está creando tensión. La amo pero el matrimonio me da miedo financiero.",
+      "type": "life",
+      "options": [
+        "Casarnos este año con boda simple",
+        "Esperar 2 años más para ahorrar",
+        "Comprometernos ahora, casarnos después",
+        "Vivir juntos primero sin casarnos"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 20
+    },
+    {
+      "title": "¿Debería hacer un MBA o certificaciones técnicas especializadas?",
+      "context": "Tengo 5 años de experiencia como developer. Un MBA me abriría puertas a roles gerenciales y cuesta $50,000. Las certificaciones de AWS/Google Cloud cuestan $5,000 total y me especializarían técnicamente. No sé si quiero ser manager o arquitecto.",
+      "type": "career",
+      "options": [
+        "MBA para pivotear a management",
+        "Certificaciones técnicas para ser arquitecto",
+        "Ambos pero empezar con certificaciones",
+        "Ninguno, la experiencia es suficiente"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 15
+    },
+    {
+      "title": "¿Lanzo mi producto en Product Hunt o espero a tener más tracción?",
+      "context": "Mi SaaS tiene 50 usuarios beta activos y buen feedback. Puedo lanzar en Product Hunt ahora para ganar visibilidad, o esperar a tener 200+ usuarios y mejores métricas. Solo tengo una oportunidad de causar buena primera impresión.",
+      "type": "startup",
+      "options": [
+        "Lanzar ahora con el momentum actual",
+        "Esperar a 200+ usuarios",
+        "Lanzar en comunidades pequeñas primero",
+        "Contratar un hunter con followers"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 5
+    },
+    {
+      "title": "¿Compro un auto usado o sigo usando transporte público?",
+      "context": "El transporte público me toma 2 horas diarias de commute. Un auto usado decente cuesta $15,000 y reduciría mi commute a 40 minutos. Pero significaría gasolina, seguro, mantenimiento. Trabajo híbrido 3 días en oficina. El ahorro mensual sería de $500 sin auto.",
+      "type": "financial",
+      "options": [
+        "Comprar auto usado cash",
+        "Comprar auto con financiamiento",
+        "Seguir en transporte público y ahorrar",
+        "Comprar moto que es más barata"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 10
+    },
+    {
+      "title": "¿TypeScript o JavaScript vanilla para mi nuevo proyecto?",
+      "context": "Inicio un proyecto grande que mantendrán varios developers. TypeScript ayuda con types pero añade complejidad y tiempo de setup. JavaScript es más rápido de escribir pero más propenso a errores. El proyecto durará años.",
+      "type": "technical",
+      "options": [
+        "TypeScript desde el día 1",
+        "JavaScript con JSDoc para documentar",
+        "JavaScript y migrar a TypeScript después"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 2
+    },
+    {
+      "title": "¿Hago terapia o intento resolver mis problemas solo?",
+      "context": "Últimamente tengo mucha ansiedad por el trabajo y decisiones de vida. La terapia cuesta $100 por sesión. Podría intentar meditación, ejercicio y libros de autoayuda que son más baratos. Pero no sé si será suficiente.",
+      "type": "life",
+      "options": [
+        "Empezar terapia ya",
+        "Probar 3 meses de auto-ayuda primero",
+        "Terapia online que es más barata",
+        "Grupo de apoyo gratuito"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 7
+    },
+    {
+      "title": "¿Debería vender equity a un inversor o bootstrappear mi startup?",
+      "context": "Un VC quiere invertir $500k por 20% de mi startup. Significaría crecer rápido pero perder control. Actualmente facturo $10k/mes y soy rentable. Podría crecer orgánicamente pero más lento. La competencia está levantando rondas grandes.",
+      "type": "startup",
+      "options": [
+        "Aceptar inversión y crecer rápido",
+        "Bootstrappear y mantener 100% equity",
+        "Buscar inversor con mejores términos",
+        "Aceptar menos dinero por menos equity"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 10
+    },
+    {
+      "title": "¿Me especializo en frontend, backend o fullstack?",
+      "context": "Llevo 2 años como developer fullstack junior. Necesito especializarme para ganar más. Me gusta más el frontend pero el backend paga mejor. Fullstack me da más opciones pero ser especialista paga más. El mercado está competitivo.",
+      "type": "career",
+      "options": [
+        "Frontend con React/Vue expertise",
+        "Backend con cloud y DevOps",
+        "Fullstack pero senior level",
+        "Frontend + Mobile (React Native)"
+      ],
+      "is_anonymous": false,
+      "days_until_expire": 12
+    },
+    {
+      "title": "¿Renovar contrato de alquiler o buscar algo más barato?",
+      "context": "Mi alquiler sube 15% este año. Está en buena ubicación cerca del trabajo. Mudarme es un lío y costaría $2000 en mudanza + depósito. Podría encontrar algo 20% más barato pero más lejos. Trabajo híbrido 3 días presencial.",
+      "type": "financial",
+      "options": [
+        "Renovar y pagar el aumento",
+        "Buscar algo más barato aunque esté lejos",
+        "Negociar con el landlord actual",
+        "Buscar roommate para dividir gastos"
+      ],
+      "is_anonymous": true,
+      "days_until_expire": 30
+    }
+  ]
+}
