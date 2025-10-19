@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DecisionController;
 use App\Http\Controllers\VoteController;
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
         Route::get('voted-decisions', [DecisionController::class, 'votedDecisions']);
         Route::post('votes', [VoteController::class, 'store']);
         Route::delete('votes/{id}', [VoteController::class, 'destroy']);
+        Route::post('decisions/{decision}/comments', [CommentController::class, 'store']);
     });
 });
 
@@ -61,6 +63,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('api')->group(function () {
     Route::get('decisions', [DecisionController::class, 'index']);
     Route::get('decisions/{id}', [DecisionController::class, 'show']);
+    Route::get('decisions/{decision}/comments', [CommentController::class, 'index']);
 });
 
 require __DIR__.'/auth.php';

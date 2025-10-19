@@ -93,4 +93,8 @@ class Decision extends Model
     {
         return $this->votes()->where('user_id', $user->id)->first();
     }
+
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
 }
