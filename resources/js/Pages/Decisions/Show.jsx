@@ -4,6 +4,7 @@ import { Head, usePage } from '@inertiajs/react';
 import VoteOption from '@/Components/Decisions/VoteOption';
 import { ClockIcon, UserIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { CommentList } from '@/Components/Decisions/CommentList';
+import { CommentForm } from '@/Components/Decisions/CommentForm';
 
 export default function Show({ id }) {
     const { auth } = usePage().props;
@@ -233,10 +234,18 @@ export default function Show({ id }) {
                         <div className='p-6'>
                             <h3 className="font-semibold text-gray-700 mb-4">Comentarios de la comunidad ({totalComments})</h3>
                             <div className="space-y-3">
+                                {/* Agregar nuevo comentario */}
+                                {auth.user && (
+                                    <CommentForm
+                                        decision_id={decision.id}
+                                        onCommentAdded={handleCommentAdded}
+                                    />
+                                )}
+                                {/* Lista de comentarios */}
                                 <CommentList
                                     decision_id={decision.id}
                                     setTotalComments={setTotalComments}
-                                    reloadTrigger={handleCommentAdded}
+                                    reloadTrigger={reloadComments}
                                     totalComments={totalComments}
                                 />
                             </div>

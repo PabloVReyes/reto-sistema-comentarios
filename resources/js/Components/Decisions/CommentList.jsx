@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const timeAgo = (date) => {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -13,22 +13,26 @@ const timeAgo = (date) => {
     if (months < 12) return `${months} meses`;
     const years = Math.floor(months / 12);
     return `${years} años`;
-}
+};
 
+// Obtener iniciales a partir del nombre del usuario
 const getInitials = (name) => {
-    if (!name) return 'U';
-    const parts = name.trim().split(' ');
+    if (!name) return "U";
+    const parts = name.trim().split(" ");
     if (parts.length === 1) return parts[0][0].toUpperCase();
     return (parts[0][0] + parts[1][0]).toUpperCase();
 };
 
 export const CommentList = ({ decision_id, setTotalComments, totalComments, reloadTrigger }) => {
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [lastPage, setLasPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
     const [loadingMore, setLoadingMore] = useState(false);
+    const containerRef = useRef(null);
+    const [error, setError] = useState('')
 
+    // Comentarios en base de datos
     const fetchComments = async (page = 1) => {
         try {
             page === 1 ? setLoading(true) : setLoadingMore(true);
@@ -37,29 +41,48 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
 
             if (page === 1) {
                 setComments(data.data);
-                setTotalComments(data.total)
+                // Envia el total de comentarios almacenados respecto a la decisión
+                setTotalComments(data.total);
             } else {
-                setComments(prev => [...prev, ...data.data])
+                setComments((prev) => [...prev, ...data.data]);
             }
 
             setCurrentPage(data.current_page);
-            setLasPage(data.lastPage)
+            setLastPage(data.last_page);
         } catch (error) {
-            console.error('Error fetching comments:', error)
+            setError(error)
         } finally {
             setLoading(false);
-            setLoadingMore(false)
+            setLoadingMore(false);
         }
-    }
+    };
+
+    // Aumentar el scroll y mostrar mas comentarios
+    const handleScroll = () => {
+        if (!containerRef.current || loadingMore) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = containerRef.current;
+        if (scrollTop + clientHeight >= scrollHeight - 10 && currentPage < lastPage) {
+            fetchComments(currentPage + 1);
+        }
+    };
 
     useEffect(() => {
         fetchComments();
-    }, [decision_id, reloadTrigger])
+    }, [decision_id, reloadTrigger]);
 
     if (loading) {
         return (
             <div className="flex justify-center py-4">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex justify-center py-4">
+                <p className="text-red-500 text-center py-4">{error}</p>;
             </div>
         )
     }
@@ -69,33 +92,35 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
     }
 
     return (
-        <div className="space-y-4">
+        <div
+            className="space-y-4 overflow-auto max-h-[500px]"
+            ref={containerRef}
+            onScroll={handleScroll}
+        >
             {comments.map((comment) => (
                 <div key={comment.id} className="flex space-x-4 bg-gray-50 rounded-lg p-4">
+                    {/* Avatar */}
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold">
                         {comment.user?.avatar || getInitials(comment.user?.name)}
                     </div>
+
                     <div className="flex-1">
+                        {/* Nombre y tiempo */}
                         <div className="flex justify-between items-center mb-1">
-                            <span className="font-semibold text-gray-700">{comment.user?.name || 'Usuario'}</span>
+                            <span className="font-semibold text-gray-700">{comment.user?.name || "Usuario"}</span>
                             <span className="text-xs text-gray-400">{timeAgo(comment.created_at)} atrás</span>
                         </div>
+                        {/* Comentario */}
                         <p className="text-gray-600 whitespace-pre-wrap">{comment.content}</p>
                     </div>
                 </div>
             ))}
 
-            {currentPage < lastPage && (
-                <div className="flex justify-center mt-4">
-                    <button
-                        onClick={() => fetchComments(currentPage + 1)}
-                        disabled={loadingMore}
-                        className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {loadingMore ? 'Cargando...' : 'Cargar comentarios anteriores'}
-                    </button>
+            {loadingMore && (
+                <div className="flex justify-center py-4">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600" />
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
