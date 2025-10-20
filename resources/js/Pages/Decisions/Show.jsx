@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage } from '@inertiajs/react';
 import VoteOption from '@/Components/Decisions/VoteOption';
 import { ClockIcon, UserIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { CommentList } from '@/Components/Decisions/CommentList';
 
 export default function Show({ id }) {
     const { auth } = usePage().props;
@@ -11,10 +12,16 @@ export default function Show({ id }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [comment, setComment] = useState('');
     const [voting, setVoting] = useState(false);
+    const [totalComments, setTotalComments] = useState(0)
+    const [reloadComments, setReloadComments] = useState(false);
 
     useEffect(() => {
         fetchDecision();
     }, [id]);
+
+    const handleCommentAdded = () => {
+        setReloadComments((prev) => !prev)
+    }
 
     const fetchDecision = async () => {
         try {
@@ -97,9 +104,9 @@ export default function Show({ id }) {
     };
 
     const canVote = decision.status === 'open' &&
-                   !decision.is_expired &&
-                   !decision.user_has_voted &&
-                   decision.user_id !== auth.user.id;
+        !decision.is_expired &&
+        !decision.user_has_voted &&
+        decision.user_id !== auth.user.id;
 
     return (
         <AuthenticatedLayout>
@@ -221,6 +228,20 @@ export default function Show({ id }) {
                             </div>
                         </div>
                     )}
+
+                    <div className="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                        <div className='p-6'>
+                            <h3 className="font-semibold text-gray-700 mb-4">Comentarios de la comunidad ({totalComments})</h3>
+                            <div className="space-y-3">
+                                <CommentList
+                                    decision_id={decision.id}
+                                    setTotalComments={setTotalComments}
+                                    reloadTrigger={handleCommentAdded}
+                                    totalComments={totalComments}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
