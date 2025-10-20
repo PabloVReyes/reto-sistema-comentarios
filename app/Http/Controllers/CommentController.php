@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Decision;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class CommentController extends Controller
         return response()->json($comments);
     }
 
-    public function store(Request $request, Decision $decision) {
+    public function store(Request $request, Decision $decision)
+    {
         $validated = $request->validate([
             'content' => 'required|string|min:10|max:1000'
         ]);
@@ -30,11 +32,34 @@ class CommentController extends Controller
         $comment->load('user:id:name,email');
         $request->user()->increment('karma', 5);
 
-        if($request->wantsJson()) {
+        if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Comentario creado',
                 'comment' => $comment
             ], 201);
+        }
+
+        return back();
+    }
+
+    public function update(Request $request, Comment $comment)
+    {
+        // Validar que el comentario pertenece al usuario
+        if ($request->user()->id !== $comment->user_id) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
+        $validated = $request->validate([
+            'content' => 'required|string|min:10|max:1000',
+        ]);
+
+        $comment->update(['content' => $validated['content']]);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Comentario actualizado',
+                'comment' => $comment
+            ]);
         }
 
         return back();

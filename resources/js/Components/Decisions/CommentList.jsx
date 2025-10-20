@@ -1,3 +1,4 @@
+import { useForm } from "@inertiajs/react";
 import { useEffect, useState, useRef } from "react";
 
 const timeAgo = (date) => {
@@ -23,7 +24,7 @@ const getInitials = (name) => {
     return (parts[0][0] + parts[1][0]).toUpperCase();
 };
 
-export const CommentList = ({ decision_id, setTotalComments, totalComments, reloadTrigger }) => {
+export const CommentList = ({ decision_id, setTotalComments, totalComments, reloadTrigger, currentUserId }) => {
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -31,6 +32,11 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
     const [loadingMore, setLoadingMore] = useState(false);
     const containerRef = useRef(null);
     const [error, setError] = useState('')
+    const [editingCommentId, setEditingCommentId] = useState(null)
+
+    const { data, setData, patch, processing, reset, errors } = useForm({
+        content: ''
+    });
 
     // Comentarios en base de datos
     const fetchComments = async (page = 1) => {
@@ -56,6 +62,24 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
             setLoadingMore(false);
         }
     };
+
+    const startEdit = (comment) => {
+        setEditingCommentId(comment.id)
+        setData('content', comment.content)
+    }
+
+    const saveEdit = async (commentId) => {
+        patch(`/api/comments/${commentId}`, {
+            data: { content: data.content },
+            onSuccess: () => {
+                setComments(prev => prev.map(c => c.id === commentId ? { ...c, content: data.content } : c));
+                setEditingCommentId(null);
+                reset('content');
+            },
+            onError: (err) => console.error(err),
+            preserveScroll: true
+        });
+    }
 
     // Aumentar el scroll y mostrar mas comentarios
     const handleScroll = () => {
@@ -97,24 +121,75 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
             ref={containerRef}
             onScroll={handleScroll}
         >
-            {comments.map((comment) => (
-                <div key={comment.id} className="flex space-x-4 bg-gray-50 rounded-lg p-4">
-                    {/* Avatar */}
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold">
-                        {comment.user?.avatar || getInitials(comment.user?.name)}
-                    </div>
-
-                    <div className="flex-1">
-                        {/* Nombre y tiempo */}
-                        <div className="flex justify-between items-center mb-1">
-                            <span className="font-semibold text-gray-700">{comment.user?.name || "Usuario"}</span>
-                            <span className="text-xs text-gray-400">{timeAgo(comment.created_at)} atrás</span>
+            {comments.map((comment, index) => {
+                const isLastUserComment = comment.user?.id === currentUserId && index === 0;
+                return (
+                    <div key={comment.id} className="flex space-x-4 bg-gray-50 rounded-lg p-4">
+                        {/* Avatar */}
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-semibold">
+                            {comment.user?.avatar || getInitials(comment.user?.name)}
                         </div>
-                        {/* Comentario */}
-                        <p className="text-gray-600 whitespace-pre-wrap">{comment.content}</p>
+
+                        <div className="flex-1 min-w-0">
+                            {/* Nombre y tiempo */}
+                            <div className="flex justify-between items-center mb-1">
+                                <span className="font-semibold text-gray-700">{comment.user?.name || "Usuario"}</span>
+                                <span className="text-xs text-gray-400">{timeAgo(comment.created_at)} atrás</span>
+                            </div>
+
+                            {/* Comentario */}
+                            {editingCommentId === comment.id ? (
+                                <>
+                                    <div className="flex gap-2">
+                                        <textarea
+                                            className="w-full border rounded-md p-2"
+                                            value={data.content}
+                                            onChange={(e) => {
+                                                const value = e.target.value.slice(0, 1000);
+                                                setData('content', value);
+                                            }}
+                                        />
+                                        <button
+                                            className="bg-indigo-600 text-white px-2 rounded-md"
+                                            onClick={() => saveEdit(comment.id)}
+                                        >
+                                            Guardar
+                                        </button>
+                                        <button
+                                            className="bg-gray-400 text-white px-2 rounded-md"
+                                            onClick={() => setEditingCommentId(null)}
+                                        >
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                    <span className="text-sm text-gray-500">
+                                        {data.content.length}/1000
+                                    </span>
+                                    <div>
+
+                                        {data.content.length < 10 && (
+                                            <span className="text-red-500 text-sm">El comentario debe tener al menos 10 caracteres</span>
+                                        )}
+                                    </div>
+                                </>
+                            ) : (
+                                <p className="text-gray-600 whitespace-pre-wrap break-words">{comment.content}</p>
+                            )}
+
+                            {
+                                isLastUserComment && editingCommentId !== comment.id && (
+                                    <button
+                                        className="text-sm text-indigo-600 mt-1"
+                                        onClick={() => startEdit(comment)}
+                                    >
+                                        Editar
+                                    </button>
+                                )
+                            }
+                        </div>
                     </div>
-                </div>
-            ))}
+                )
+            })}
 
             {loadingMore && (
                 <div className="flex justify-center py-4">

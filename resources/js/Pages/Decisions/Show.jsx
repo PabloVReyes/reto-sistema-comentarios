@@ -247,6 +247,7 @@ export default function Show({ id }) {
                                     setTotalComments={setTotalComments}
                                     reloadTrigger={reloadComments}
                                     totalComments={totalComments}
+                                    currentUserId={auth.user.id}
                                 />
                             </div>
                         </div>

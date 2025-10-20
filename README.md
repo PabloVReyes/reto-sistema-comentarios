@@ -121,10 +121,12 @@ npm run build
 laravel-app/
 ├── app/
 │   ├── Http/Controllers/
+│   │   ├── CommentController.php     # Controlador de comentarios
 │   │   ├── DecisionController.php    # API de decisiones
 │   │   ├── VoteController.php        # Sistema de votación
 │   │   └── DashboardController.php   # Dashboard
 │   └── Models/
+│       ├── Comment.php               # Modelo de comentario
 │       ├── Decision.php              # Modelo de decisión
 │       ├── Option.php                # Opciones de decisión
 │       ├── Vote.php                  # Votos
@@ -139,11 +141,13 @@ laravel-app/
 │   └── js/
 │       ├── Components/
 │       │   └── Decisions/           # Componentes React
+│       │       └── CommentForm/     # Agregar nuevos comentarios 
+│       │       └── CommentList/     # Ver lista de comentarios 
 │       └── Pages/
 │           └── Decisions/           # Páginas de decisiones
 │               ├── Index.jsx        # Lista de decisiones
 │               ├── Create.jsx       # Crear decisión
-│               ├── Show.jsx         # Ver y votar
+│               ├── Show.jsx         # Ver, votar, agregar y ver comentarios
 │               ├── MyDecisions.jsx  # Mis decisiones
 │               └── VotedDecisions.jsx # Decisiones votadas
 └── routes/
@@ -192,6 +196,7 @@ php artisan db:seed --class=DecisionSeeder
 ### Públicos
 - `GET /api/decisions` - Lista de decisiones
 - `GET /api/decisions/{id}` - Ver decisión
+- `GET /api/decisions/{decision}/comment` - Ver comentarios de la decisión
 
 ### Autenticados
 - `POST /api/decisions` - Crear decisión
@@ -201,6 +206,7 @@ php artisan db:seed --class=DecisionSeeder
 - `GET /api/voted-decisions` - Decisiones votadas
 - `POST /api/votes` - Votar
 - `DELETE /api/votes/{id}` - Eliminar voto
+- `POST /api/decisions/{decisions}/comment` - Agregar un nuevo comentario a la decisión
 
 ## 🐛 Solución de Problemas
 
