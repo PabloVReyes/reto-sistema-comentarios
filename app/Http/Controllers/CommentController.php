@@ -59,7 +59,26 @@ class CommentController extends Controller
             return response()->json([
                 'message' => 'Comentario actualizado',
                 'comment' => $comment
-            ]);
+            ], 200);
+        }
+
+        return back();
+    }
+
+    public function destroy(Request $request, Comment $comment) {
+        // Verificar que el usuario sea el propietario
+        if($request->user()->id !== $comment->user_id) {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
+        $comment->delete();
+
+        $request->user()->decrement('karma', 5);
+
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Comentario eliminado',
+            ], 200);
         }
 
         return back();

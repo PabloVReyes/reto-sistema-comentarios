@@ -1,4 +1,4 @@
-import { CheckCircleIcon } from "@heroicons/react/24/outline"
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline"
 import { useForm } from "@inertiajs/react"
 import { useState } from "react"
 import Modal from "../Modal"
@@ -104,6 +104,15 @@ export const CommentForm = ({ decision_id, onCommentAdded }) => {
                     <CheckCircleIcon className="mx-auto w-12 h-12 text-green-600 mb-4" />
                     <h3 className="text-lg font-semibold">Comentario publicado</h3>
                     <p className="mt-2 text-gray-600">Tu comentario se ha publicado correctamente.</p>
+                </div>
+            </Modal>
+
+            {/* Modal de error */}
+            <Modal show={showError} onClose={() => setError(false)}>
+                <div className="p-6 text-center">
+                    <ExclamationCircleIcon className="mx-auto w-12 h-12 text-red-500 mb-4" />
+                    <h3 className="text-lg font-semibold">Error al eliminar</h3>
+                    <p className="mt-2 text-gray-600">{errorMessage}</p>
                 </div>
             </Modal>
         </>

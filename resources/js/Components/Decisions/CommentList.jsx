@@ -1,5 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { useEffect, useState, useRef } from "react";
+import Modal from "../Modal";
+import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 const timeAgo = (date) => {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -33,10 +35,17 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
     const containerRef = useRef(null);
     const [error, setError] = useState('')
     const [editingCommentId, setEditingCommentId] = useState(null)
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [commentToDelete, setCommentToDelete] = useState(null);
+    const [showSuccess, setShowSuccess] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const { data, setData, patch, processing, reset, errors } = useForm({
         content: ''
     });
+
+    const { delete: destroy } = useForm({})
 
     // Comentarios en base de datos
     const fetchComments = async (page = 1) => {
@@ -80,6 +89,28 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
             preserveScroll: true
         });
     }
+
+    const confirmDelete = (comment) => {
+        setCommentToDelete(comment);
+        setShowDeleteModal(true);
+    };
+
+    const handleDelete = () => {
+        setShowDeleteModal(false)
+        if (!commentToDelete) return;
+
+        destroy(`/api/comments/${commentToDelete.id}`, {
+            onSuccess: () => {
+                setComments(prev => prev.filter(c => c.id !== commentToDelete.id));
+                setTotalComments(prev => prev - 1);
+                setShowSuccess(true)
+                setTimeout(() => setShowSuccess(false), 3000);
+            },
+            onError: () => alert('No se pudo eliminar el comentario'),
+            preserveScroll: true
+        });
+    };
+
 
     // Aumentar el scroll y mostrar mas comentarios
     const handleScroll = () => {
@@ -178,12 +209,21 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
 
                             {
                                 isLastUserComment && editingCommentId !== comment.id && (
-                                    <button
-                                        className="text-sm text-indigo-600 mt-1"
-                                        onClick={() => startEdit(comment)}
-                                    >
-                                        Editar
-                                    </button>
+                                    <div className="flex gap-2">
+                                        <button
+                                            className="text-sm text-indigo-600 mt-1"
+                                            onClick={() => startEdit(comment)}
+                                        >
+                                            Editar
+                                        </button>
+
+                                        <button
+                                            className="text-sm text-red-500 mt-1"
+                                            onClick={() => confirmDelete(comment)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </div>
                                 )
                             }
                         </div>
@@ -196,6 +236,46 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600" />
                 </div>
             )}
+
+            {/* Modal de confirmación */}
+            <Modal show={showDeleteModal} onClose={() => setShowConfirm(false)}>
+                <div className="p-6 text-center">
+                    <h3 className="text-lg font-semibold mb-4">Confirmar publicación</h3>
+                    <p className="mb-6">¿Estas seguro que quieres eliminar este comentario?</p>
+                    <div className="flex justify-center space-x-4">
+                        <button
+                            onClick={handleDelete}
+                            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
+                        >
+                            Sí, eliminar
+                        </button>
+                        <button
+                            onClick={() => setShowDeleteModal(false)}
+                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
+            {/* Modal de éxito */}
+            <Modal show={showSuccess} onClose={() => setShowSuccess(false)} closeable={false}>
+                <div className="p-6 text-center">
+                    <CheckCircleIcon className="mx-auto w-12 h-12 text-green-600 mb-4" />
+                    <h3 className="text-lg font-semibold">Comentario eliminado</h3>
+                    <p className="mt-2 text-gray-600">Tu comentario se ha eliminado correctamente.</p>
+                </div>
+            </Modal>
+
+            {/* Modal de error */}
+            <Modal show={showError} onClose={() => setError(false)}>
+                <div className="p-6 text-center">
+                    <ExclamationCircleIcon className="mx-auto w-12 h-12 text-red-500 mb-4" />
+                    <h3 className="text-lg font-semibold">Error al eliminar</h3>
+                    <p className="mt-2 text-gray-600">{errorMessage}</p>
+                </div>
+            </Modal>
         </div>
     );
 };

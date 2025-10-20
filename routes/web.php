@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('votes/{id}', [VoteController::class, 'destroy']);
         Route::post('decisions/{decision}/comments', [CommentController::class, 'store']);
         Route::patch('comments/{comment}', [CommentController::class, 'update']);
+        Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
     });
 });
 
