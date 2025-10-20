@@ -207,6 +207,8 @@ php artisan db:seed --class=DecisionSeeder
 - `POST /api/votes` - Votar
 - `DELETE /api/votes/{id}` - Eliminar voto
 - `POST /api/decisions/{decisions}/comment` - Agregar un nuevo comentario a la decisión
+- `PUT /api/comment/{commet}` - Editar/Actualizar ultimo comentario publicado por el usuario en una decisión
+- `DELETE /api/comment/{commet}` - Eliminar ultimo comentario publicado por el usuario en una decisión
 
 ## 🐛 Solución de Problemas
 

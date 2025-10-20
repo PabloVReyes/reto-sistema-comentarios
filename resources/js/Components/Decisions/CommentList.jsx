@@ -106,7 +106,7 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
                 setShowSuccess(true)
                 setTimeout(() => setShowSuccess(false), 3000);
             },
-            onError: () => alert('No se pudo eliminar el comentario'),
+            onError: () => setShowError(true),
             preserveScroll: true
         });
     };
@@ -273,7 +273,7 @@ export const CommentList = ({ decision_id, setTotalComments, totalComments, relo
                 <div className="p-6 text-center">
                     <ExclamationCircleIcon className="mx-auto w-12 h-12 text-red-500 mb-4" />
                     <h3 className="text-lg font-semibold">Error al eliminar</h3>
-                    <p className="mt-2 text-gray-600">{errorMessage}</p>
+                    <p className="mt-2 text-gray-600">{errorMessage || "No se ha eliminado el comentario"}</p>
                 </div>
             </Modal>
         </div>
